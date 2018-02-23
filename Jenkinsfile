@@ -10,8 +10,8 @@ pipeline {
     stage("Install Deps") {
         steps {
 	    // Why doesn't numpy get installed by pyDOE (by xplan_api)?
-	    sh 'pip2 install -t python2 agavepy numpy --upgrade'
-            sh 'pip2 install -t python2 git+https://github.com/SD2E/xplan_api.git'
+	    sh 'pip2 install --no-cache-dir -t python2 agavepy numpy --upgrade'
+            sh 'pip2 install --no-cache-dir -t python2 git+https://github.com/SD2E/xplan_api.git'
         }
     }
     stage("Run script") {
