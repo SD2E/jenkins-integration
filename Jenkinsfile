@@ -15,6 +15,8 @@ pipeline {
     }
     stage("Run script") {
         steps {
+	    sh 'ls python2'
+	    sh 'ls python2/numpy'
             sh 'PYTHONPATH=`pwd`/python2 python2 xplan-rule30-end-to-end-demo.py'
         }
     }
