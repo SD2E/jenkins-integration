@@ -9,6 +9,7 @@ pipeline {
     }
     stage("Install Deps") {
         steps {
+	    sh 'pip2 install agavepy'
             sh 'pip2 install -t python2 git+https://github.com/SD2E/xplan_api.git'
         }
     }
