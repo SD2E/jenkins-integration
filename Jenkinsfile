@@ -14,7 +14,7 @@ pipeline {
     }
     stage("Run script") {
         steps {
-            sh returnStatus: true, script: 'PYTHONPATH=`pwd`/python2 python2 xplan-rule30-end-to-end.py'
+            sh returnStatus: true, script: 'PYTHONPATH=`pwd`/python2 python2 xplan-rule30-end-to-end-demo.py'
         }
     }
   }
