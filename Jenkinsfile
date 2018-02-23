@@ -2,9 +2,9 @@ pipeline {
   agent any
 
   stages {
-    stage("Hello") {
+    stage("Clean First") {
       steps {
-        echo "Hello"
+        sh 'rm -rf python2'
       }
     }
     stage("Install Deps") {
