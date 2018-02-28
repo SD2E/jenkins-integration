@@ -14,6 +14,7 @@ def testCreds() {
     	echo "In stage"
 	withCredentials([usernamePassword(credentialsId: '4d8e06da-d728-4dcc-aa32-9e10bb8afb73', passwordVariable: 'SD2PASS', usernameVariable: 'SD2USER')]) {
 	    echo SD2USER
+	    sh 'files-list'
         }
     }
 }
