@@ -8,7 +8,9 @@ node {
     testCreds()
   }
   installDeps()
-  testPython()
+  withEnv(['PYTHONPATH+=./pip']) {
+    testPython()
+  }
 }
 
 def testCreds() {
@@ -26,7 +28,7 @@ def testCreds() {
 
 def installDeps() {
     stage('Install Dependencies') {
-        sh 'pip install agavepy'
+        sh 'pip install --location ./pip agavepy'
     }
 }
 
