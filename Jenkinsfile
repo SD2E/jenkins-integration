@@ -7,6 +7,7 @@ node {
   withEnv(['PATH+=/var/lib/jenkins/sd2e-cloud-cli/bin']) {
     testCreds()
   }
+  installDeps()
   testPython()
 }
 
@@ -20,6 +21,12 @@ def testCreds() {
             sh 'ls'
 	    sh './init-sd2e.sh'
         }
+    }
+}
+
+def installDeps() {
+    stage('Install Dependencies') {
+        sh 'pip install agavepy'
     }
 }
 
