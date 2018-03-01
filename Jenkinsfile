@@ -28,8 +28,8 @@ def testCreds() {
 
 def installDeps() {
     stage('Install Dependencies') {
-        sh 'pip install -t ./pip agavepy'
-        sh 'pip install -t ./pip git+https://github.com/SD2E/xplan_api.git'
+        sh 'pip install --upgrade --target ./pip agavepy'
+        sh 'pip install --upgrade --target ./pip git+https://github.com/SD2E/xplan_api.git'
     }
 }
 
