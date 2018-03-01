@@ -15,4 +15,4 @@ clients-create -S -N $client -D "My client used for interacting with SD2E" -u $A
 auth-tokens-create -S -p $AGAVE_PASSWORD
 auth-check
 
-files-list
+# files-list
