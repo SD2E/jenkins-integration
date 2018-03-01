@@ -7,8 +7,8 @@ node {
   withEnv(['PATH+=/var/lib/jenkins/sd2e-cloud-cli/bin']) {
     testCreds()
   }
-  installDeps()
-  withEnv(['PYTHONPATH+=./pip']) {
+  withPythonEnv('python') {
+    installDeps()
     testPython()
   }
 }
@@ -28,12 +28,9 @@ def testCreds() {
 
 def installDeps() {
     stage('Install Dependencies') {
-        sh 'rm -rf ./pip'
-        sh 'pip install --no-cache --upgrade --target ./pip numpy'
-	sh 'ls ./pip'
-        sh 'pip install --upgrade --target ./pip agavepy'
-        sh 'pip install --upgrade --target ./pip git+https://github.com/SD2E/xplan_api.git'
-	sh 'ls ./pip'
+        sh 'pip install --upgrade numpy'
+        sh 'pip install --upgrade agavepy'
+        sh 'pip install --upgrade git+https://github.com/SD2E/xplan_api.git'
     }
 }
 
