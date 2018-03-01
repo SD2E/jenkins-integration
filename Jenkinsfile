@@ -4,10 +4,10 @@
 
 node {
   checkout scm
-  withEnv(['PATH+=/var/lib/jenkins/sd2e-cloud-cli/bin',
-	   'SD2_CLIENT=sd2e_client_$BUILD_TAG']) {
+  withEnv(['PATH+=/var/lib/jenkins/sd2e-cloud-cli/bin']) {
     testCreds()
   }
+  testPython()
 }
 
 def testCreds() {
