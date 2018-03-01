@@ -28,9 +28,9 @@ def testCreds() {
 
 def installDeps() {
     stage('Install Dependencies') {
-        pysh 'pip install --upgrade numpy'
-        pysh 'pip install --upgrade agavepy'
-        pysh 'pip install --upgrade git+https://github.com/SD2E/xplan_api.git'
+        pysh 'pip install numpy'
+        pysh 'pip install agavepy'
+        pysh 'pip install git+https://github.com/SD2E/xplan_api.git'
     }
 }
 
