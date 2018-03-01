@@ -28,7 +28,7 @@ def testCreds() {
 
 def installDeps() {
     stage('Install Dependencies') {
-        sh 'pip install --location ./pip agavepy'
+        sh 'pip install --target ./pip agavepy'
     }
 }
 
