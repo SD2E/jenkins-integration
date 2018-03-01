@@ -3,7 +3,9 @@
 */
 
 node {
-
+  environment {
+    PATH = "/var/lib/jenkins/sd2e-cloud-cli/bin:$PATH"
+  }
   testCreds()
 
 }
@@ -12,6 +14,7 @@ node {
 def testCreds() {
     stage('Test Credentials') {
     	echo "In stage"
+    	echo "PATH = $PATH"
 	withCredentials([usernamePassword(credentialsId: '4d8e06da-d728-4dcc-aa32-9e10bb8afb73', passwordVariable: 'SD2PASS', usernameVariable: 'SD2USER')]) {
 	    echo SD2USER
 	    sh 'files-list'
