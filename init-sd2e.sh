@@ -15,6 +15,4 @@ clients-create -S -N $client -D "My client used for interacting with SD2E" -u $A
 auth-tokens-create -S -p $AGAVE_PASSWORD
 auth-check
 
-SD2E_SYSTEM=data-tacc-work-$AGAVE_USER
-
-files-list -S $SD2E_SYSTEM
+files-list

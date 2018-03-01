@@ -22,3 +22,9 @@ def testCreds() {
         }
     }
 }
+
+def testPython() {
+    stage('Test Python') {
+        sh 'python xplan-rule30-end-to-end-demo.py'
+    }
+}
