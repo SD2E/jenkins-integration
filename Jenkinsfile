@@ -16,12 +16,7 @@ def testCreds() {
 	withCredentials([usernamePassword(credentialsId: '4d8e06da-d728-4dcc-aa32-9e10bb8afb73',
 					  passwordVariable: 'AGAVE_PASSWORD',
 					  usernameVariable: 'AGAVE_USER')]) {
-            echo env.BUILD_TAG
-	    /* sh 'tenants-init -t sd2e' */
-	    echo env.SD2_CLIENT
-	    sh 'clients-create -S -N $SD2_CLIENT -D "My client used for interacting with SD2E" -u $AGAVE_USER -p $AGAVE_PASSWORD'
-	    sh 'auth-tokens-create -S -p $AGAVE_PASSWORD'
-	    sh 'auth-check'
+	    sh 'init-sd2e.sh'
         }
     }
 }
