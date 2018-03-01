@@ -16,7 +16,8 @@ def testCreds() {
 	withCredentials([usernamePassword(credentialsId: '4d8e06da-d728-4dcc-aa32-9e10bb8afb73',
 					  passwordVariable: 'AGAVE_PASSWORD',
 					  usernameVariable: 'AGAVE_USER')]) {
-	    sh 'init-sd2e.sh'
+            sh 'ls'
+	    sh './init-sd2e.sh'
         }
     }
 }
