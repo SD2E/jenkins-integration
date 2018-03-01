@@ -3,7 +3,8 @@
 */
 
 node {
-  withEnv(['PATH+=/var/lib/jenkins/sd2e-cloud-cli/bin']) {
+  withEnv(['PATH+=/var/lib/jenkins/sd2e-cloud-cli/bin',
+	   'SD2_CLIENT=sd2e_client_$BUILD_TAG']) {
     testCreds()
   }
 }
@@ -17,8 +18,8 @@ def testCreds() {
 					  usernameVariable: 'AGAVE_USER')]) {
             echo env.BUILD_TAG
 	    /* sh 'tenants-init -t sd2e' */
-	    sh 'client="sd2e_client_$BUILD_TAG"'
-	    sh 'clients-create -S -N $client -D "My client used for interacting with SD2E" -u $AGAVE_USER -p $AGAVE_PASSWORD'
+	    echo env.SD2_CLIENT
+	    sh 'clients-create -S -N $SD2_CLIENT -D "My client used for interacting with SD2E" -u $AGAVE_USER -p $AGAVE_PASSWORD'
 	    sh 'auth-tokens-create -S -p $AGAVE_PASSWORD'
 	    sh 'auth-check'
         }
