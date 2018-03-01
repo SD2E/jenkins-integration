@@ -28,14 +28,14 @@ def testCreds() {
 
 def installDeps() {
     stage('Install Dependencies') {
-        sh 'pip install --upgrade numpy'
-        sh 'pip install --upgrade agavepy'
-        sh 'pip install --upgrade git+https://github.com/SD2E/xplan_api.git'
+        pysh 'pip install --upgrade numpy'
+        pysh 'pip install --upgrade agavepy'
+        pysh 'pip install --upgrade git+https://github.com/SD2E/xplan_api.git'
     }
 }
 
 def testPython() {
     stage('Test Python') {
-        sh 'python xplan-rule30-end-to-end-demo.py'
+        pysh 'python xplan-rule30-end-to-end-demo.py'
     }
 }
