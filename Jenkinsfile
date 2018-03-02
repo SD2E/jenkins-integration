@@ -7,7 +7,7 @@ node {
   withEnv(['PATH+=/var/lib/jenkins/sd2e-cloud-cli/bin']) {
     testCreds()
   }
-  withPythonEnv('python') {
+  withPythonEnv('Python2.7') {
     installDeps()
     testPython()
   }
