@@ -185,9 +185,36 @@ f.close()
 
 # Copy to public plan directory
 
-ag.files.importData(
-    systemId='data-sd2e-community',
-    filePath='plan',
-    fileToUpload=open(plan_request_file))
+import_status = ag.files.importData(systemId='data-sd2e-community',
+                                    filePath='plan',
+                                    fileToUpload=open(plan_request_file))
+
+# Setup Job for XPlan
+job  = {
+    "name": "xplan-test",
+    "appId": "xplan-dbryce-0.1.0",
+    "archive": True,
+    "archivePath":"/plan/",
+    "archiveSystem" : "data-sd2e-community",
+    "parameters": {
+	"problem": "agave://data-sd2e-community/plan/" + plan_request_file
+    }
+}
+
+print job
+
+# Submit the job to run
+my_job = ag.jobs.submit(body=job)
+my_job
+
+while ag.jobs.getStatus(jobId=my_job['id'])['status'] != 'FINISHED':
+    time.sleep(1)
+
+print 'Done!'
+
+job_status = ag.jobs.getStatus(jobId=my_job['id'])
+print job_status
+
+print ag.jobs.getOutput(jobId=my_job['id'])
 
 exit(0)
