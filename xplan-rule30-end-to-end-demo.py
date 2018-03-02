@@ -1,4 +1,5 @@
-# Dependencies
+# From https://github.com/SD2E/plan-requests
+
 from agavepy.agave import Agave
 import json
 import time
@@ -10,4 +11,3 @@ ag = Agave.restore()
 print('%r' % (ag))
 
 exit(0)
-
