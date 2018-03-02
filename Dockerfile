@@ -18,7 +18,7 @@ RUN pip install --upgrade pip && \
 RUN curl -L \
     https://raw.githubusercontent.com/sd2e/sd2e-cli/master/sd2e-cloud-cli.tgz \
     -o /tmp/sd2e-cloud-cli.tgz \
-    && tar xzf sd2e-cloud-cli.tgz -C /usr/local \
+    && tar xzf /tmp/sd2e-cloud-cli.tgz -C /usr/local \
     && rm /tmp/sd2e-cloud-cli.tgz \
     && ln -s /usr/local/sd2e-cloud-cli/bin/* /usr/local/bin/
 RUN pip install git+https://github.com/TACC/agavepy.git#egg=agavepy
