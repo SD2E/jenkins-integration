@@ -234,7 +234,7 @@ print 'Job status is %r' % (job_status)
 # Look for the plan. It will be more recent than the submit time
 # of the job and end with ".json"
 plans=ag.files.list(systemId=my_job.archiveSystem, filePath=my_job.archivePath)
-new_files = [plan for plan in plans if f.lastModified > my_job.submitTime]
+new_files = [plan for plan in plans if plan.lastModified > my_job.submitTime]
 planTimesNames = [(plan['lastModified'], plan['name'])
                   for plan in new_files if plan['name'].find("json") > -1]
 if not planTimesNames:
