@@ -1,9 +1,12 @@
 #!/bin/sh
 
-# PATH is set in the Jenkinsfile
-# PATH=/var/lib/jenkins/sd2e-cloud-cli/bin
-
+# echo commands
 set -x
+# stop on error
+set -e
+
+# This is the location in the Docker image
+export PATH=$PATH:/root/sd2e-cloud-cli/bin
 
 tenants-init -t sd2e
 
