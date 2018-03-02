@@ -11,8 +11,10 @@ node {
   //   installDeps()
   //   testPython()
   // }
+  def customImage
+
   stage('Build docker image') {
-  def customImage = docker.build("pipeline:${env.BUILD_ID}")
+  customImage = docker.build("pipeline:${env.BUILD_ID}")
 }
 
 // what is the uid/gid of the build user?
