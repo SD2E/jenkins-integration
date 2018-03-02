@@ -11,21 +11,23 @@ node {
   //   installDeps()
   //   testPython()
   // }
+  stage('Build docker image') {
   def customImage = docker.build("pipeline:${env.BUILD_ID}")
+}
 
 // what is the uid/gid of the build user?
-  sh 'id'
+  // sh 'id'
     customImage.inside {
-            stage('Test inside') {
-                sh 'ls -l /usr/local/bin'
-            }
+            // stage('Test inside') {
+            //     sh 'ls -l /usr/local/bin'
+            // }
         testCreds()
         testPython()
     }
 }
 
 def testCreds() {
-    stage('Test Credentials') {
+    stage('Initialize Agave') {
     	echo "In stage"
     	echo "PATH = $PATH"
 	withCredentials([usernamePassword(credentialsId: '4d8e06da-d728-4dcc-aa32-9e10bb8afb73',
@@ -36,16 +38,8 @@ def testCreds() {
     }
 }
 
-def installDeps() {
-    stage('Install Dependencies') {
-        // pysh 'pip install numpy'
-        pysh 'pip install agavepy'
-        pysh 'pip install git+https://github.com/SD2E/xplan_api.git'
-    }
-}
-
 def testPython() {
-    stage('Test Python') {
+    stage('xplan rule30') {
         sh 'python /xplan-rule30-end-to-end-demo.py'
     }
 }
