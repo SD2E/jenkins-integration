@@ -226,9 +226,22 @@ my_job
 while ag.jobs.getStatus(jobId=my_job['id'])['status'] != 'FINISHED':
     time.sleep(1)
 
-print 'Done!'
+print 'Job %r has finished' % (my_job.id)
 
 job_status = ag.jobs.getStatus(jobId=my_job['id'])
-print job_status
+print 'Job status is %r' % (job_status)
+
+# Look for the plan. It will be more recent than the submit time
+# of the job and end with ".json"
+plans=ag.files.list(systemId=my_job.archiveSystem, filePath=my_job.archivePath)
+new_files = [plan for plan in plans if f.lastModified > my_job.submitTime]
+planTimesNames = [(plan['lastModified'], plan['name'])
+                  for plan in new_files if plan['name'].find("json") > -1]
+if not planTimesNames:
+    # No *.json files are new
+    raise Exception("Couldn't find job output")
+
+lastPlan=max(planTimesNames)[1]
+print 'Found output file in %r' % (lastPlan)
 
 exit(0)
