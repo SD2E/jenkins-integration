@@ -6,7 +6,7 @@ set -x
 set -e
 
 # This is the location in the Docker image
-export PATH=$PATH:/root/sd2e-cloud-cli/bin
+export PATH=$PATH:/usr/local/sd2e-cloud-cli/bin
 
 tenants-init -t sd2e
 

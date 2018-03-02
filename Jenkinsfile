@@ -13,12 +13,14 @@ node {
   // }
   def customImage = docker.build("pipeline:${env.BUILD_ID}")
 
+// what is the uid/gid of the build user?
+  sh 'id'
     customImage.inside {
             stage('Test inside') {
                 sh 'ls -l /'
-                sh 'ls -l /root'
-                sh 'ls -l /root/sd2e-cloud-cli'
-                sh 'ls -l /root/sd2e-cloud-cli/bin'
+                sh 'ls -l /usr'
+                sh 'ls -l /usr/local'
+                sh 'ls -l /usr/local/bin'
             }
         // testCreds()
         // testPython()
