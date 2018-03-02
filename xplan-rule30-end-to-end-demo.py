@@ -151,7 +151,7 @@ goal_data=doe.tolist()
 goal_data.append(["beadcontrol"])
 goals=[{"measure" : "flowCytometry", "sample" : data_point} for data_point in goal_data]
 
-methods=[]
+methods=''
 
 for dp_desc, sample_id in zip(data_point_descriptions, sample_ids):
     for dp in dp_desc:
@@ -172,7 +172,9 @@ problem=prob.Problem(experiment_id=experimentId,
                methods=methods,
                data_points=data_point_descriptions,
                extra_sample_conditions=extra_sample_conditions,
-               samples_to_files=samples_to_files)
+               samples_to_files=samples_to_files,
+               cost_table='',
+               libraries=[])
 
 print str(problem)
 
