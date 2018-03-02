@@ -26,3 +26,6 @@ COPY init-sd2e.sh /init-sd2e.sh
 COPY xplan-rule30-end-to-end-demo.py /xplan-rule30-end-to-end-demo.py
 
 RUN ls -l /
+RUN ls -l /root
+RUN ls -l /root/sd2e-cloud-cli
+RUN ls -l /root/sd2e-cloud-cli/bin
