@@ -18,8 +18,8 @@ node {
                 sh 'ls -l /'
                 sh 'ls -l /root/sd2e-cloud-cli/bin'
             }
-        testCreds()
-        testPython()
+        // testCreds()
+        // testPython()
     }
 }
 
