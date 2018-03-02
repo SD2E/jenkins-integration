@@ -22,6 +22,9 @@ RUN curl -L \
     && rm /tmp/sd2e-cloud-cli.tgz \
     && ln -s /usr/local/sd2e-cloud-cli/bin/* /usr/local/bin/
 RUN pip install git+https://github.com/TACC/agavepy.git#egg=agavepy
+# Give the user a place to store the sd2e cli creds
+RUN mkdir -p /.agave && \
+    chmod 0777 /.agave
 
 # Install xplan-api to drive xplan app
 RUN pip install git+https://github.com/SD2E/xplan_api.git
