@@ -17,13 +17,10 @@ node {
   sh 'id'
     customImage.inside {
             stage('Test inside') {
-                sh 'ls -l /'
-                sh 'ls -l /usr'
-                sh 'ls -l /usr/local'
                 sh 'ls -l /usr/local/bin'
             }
-        // testCreds()
-        // testPython()
+        testCreds()
+        testPython()
     }
 }
 
@@ -34,7 +31,6 @@ def testCreds() {
 	withCredentials([usernamePassword(credentialsId: '4d8e06da-d728-4dcc-aa32-9e10bb8afb73',
 					  passwordVariable: 'AGAVE_PASSWORD',
 					  usernameVariable: 'AGAVE_USER')]) {
-            sh 'ls -l /root'
 	    sh '/init-sd2e.sh'
         }
     }
@@ -50,6 +46,6 @@ def installDeps() {
 
 def testPython() {
     stage('Test Python') {
-        pysh 'python /xplan-rule30-end-to-end-demo.py'
+        sh 'python /xplan-rule30-end-to-end-demo.py'
     }
 }
