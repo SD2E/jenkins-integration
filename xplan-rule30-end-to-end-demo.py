@@ -3,6 +3,7 @@
 from agavepy.agave import Agave
 import json
 import time
+import os
 import xplan_api.lab.transcriptic as transcriptic_config
 import xplan_api.s_expr.problem as prob
 from pyDOE import *
@@ -194,13 +195,14 @@ def ag_list_files(ag, sysId, path=''):
     return [f['name'] for f in ag.files.list(systemId=sysId,
                                             filePath=path)]
 
-while plan_request_file not in ag_list_files(ag,
+plan_request = os.path.basename(plan_request_file)
+while plan_request not in ag_list_files(ag,
                                              'data-sd2e-community',
                                              'plan'):
-    print "Waiting for %s" % (plan_request_file)
-    time.sleep(1)
+    print "Waiting for %s" % (plan_request)
+    time.sleep(3)
 
-print "Plan request %s has uploaded" % (plan_request_file)
+print "Plan request %s has uploaded" % (plan_request)
 
 
 # Setup Job for XPlan
@@ -211,7 +213,7 @@ job  = {
     "archivePath":"/plan/",
     "archiveSystem" : "data-sd2e-community",
     "parameters": {
-	"problem": "agave://data-sd2e-community/plan/" + plan_request_file
+	"problem": "agave://data-sd2e-community/plan/" + plan_request
     }
 }
 
