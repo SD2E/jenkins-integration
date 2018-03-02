@@ -14,6 +14,8 @@ node {
   def customImage = docker.build("pipeline:${env.BUILD_ID}")
 
     customImage.inside {
+            sh 'ls -l /root'
+            sh 'ls -l /root/sd2e-cloud-cli/bin'
         testCreds()
         testPython()
     }
@@ -26,7 +28,7 @@ def testCreds() {
 	withCredentials([usernamePassword(credentialsId: '4d8e06da-d728-4dcc-aa32-9e10bb8afb73',
 					  passwordVariable: 'AGAVE_PASSWORD',
 					  usernameVariable: 'AGAVE_USER')]) {
-            sh 'ls'
+            sh 'ls -l /root'
 	    sh '/init-sd2e.sh'
         }
     }
