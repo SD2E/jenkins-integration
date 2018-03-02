@@ -189,6 +189,20 @@ import_status = ag.files.importData(systemId='data-sd2e-community',
                                     filePath='plan',
                                     fileToUpload=open(plan_request_file))
 
+# Wait for file upload to complete
+def ag_list_files(ag, sysId, path=''):
+    return [f['name'] for f in ag.files.list(systemId=sysId,
+                                            filePath=path)]
+
+while plan_request_file not in ag_list_files(ag,
+                                             'data-sd2e-community',
+                                             'plan'):
+    print "Waiting for %s" % (plan_request_file)
+    time.sleep(1)
+
+print "Plan request %s has uploaded" % (plan_request_file)
+
+
 # Setup Job for XPlan
 job  = {
     "name": "xplan-test",
@@ -214,7 +228,5 @@ print 'Done!'
 
 job_status = ag.jobs.getStatus(jobId=my_job['id'])
 print job_status
-
-print ag.jobs.getOutput(jobId=my_job['id'])
 
 exit(0)
