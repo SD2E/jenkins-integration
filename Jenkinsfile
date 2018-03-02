@@ -15,7 +15,7 @@ node {
 
     customImage.inside {
             stage('Test inside') {
-                sh 'ls -l /root'
+                sh 'ls -l /'
                 sh 'ls -l /root/sd2e-cloud-cli/bin'
             }
         testCreds()

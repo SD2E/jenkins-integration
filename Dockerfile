@@ -15,7 +15,8 @@ RUN pip install --upgrade pip && \
     pip install --upgrade virtualenv
 
 # Install SD2E dependencies
-RUN curl -L https://raw.githubusercontent.com/sd2e/sd2e-cli/master/install/install.sh | sh
+RUN curl -L https://raw.githubusercontent.com/sd2e/sd2e-cli/master/install/install.sh | sh && \
+    tail -f ~/.bashrc
 RUN pip install git+https://github.com/TACC/agavepy.git#egg=agavepy
 
 # Install xplan-api to drive xplan app
