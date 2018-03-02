@@ -14,8 +14,10 @@ node {
   def customImage = docker.build("pipeline:${env.BUILD_ID}")
 
     customImage.inside {
-            sh 'ls -l /root'
-            sh 'ls -l /root/sd2e-cloud-cli/bin'
+            stage('Test inside') {
+                sh 'ls -l /root'
+                sh 'ls -l /root/sd2e-cloud-cli/bin'
+            }
         testCreds()
         testPython()
     }
