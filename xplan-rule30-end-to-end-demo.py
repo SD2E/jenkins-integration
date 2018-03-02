@@ -152,7 +152,7 @@ goal_data=doe.tolist()
 goal_data.append(["beadcontrol"])
 goals=[{"measure" : "flowCytometry", "sample" : data_point} for data_point in goal_data]
 
-methods=''
+methods=['transcriptic-protocol-template-3']
 
 for dp_desc, sample_id in zip(data_point_descriptions, sample_ids):
     for dp in dp_desc:
