@@ -44,6 +44,6 @@ def testCreds() {
 
 def testPython() {
     stage('xplan rule30') {
-        sh 'python /xplan-rule30-end-to-end-demo.py'
+        #sh 'python /xplan-rule30-end-to-end-demo.py'
     }
 }
