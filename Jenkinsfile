@@ -14,6 +14,8 @@ node {
   def customImage
 
   stage('Build docker image') {
+  sh "env | sort"
+  echo "My branch is: ${env.BRANCH_NAME}"
   customImage = docker.build("pipeline:${env.BUILD_ID}")
 }
 
