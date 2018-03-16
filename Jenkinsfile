@@ -15,7 +15,7 @@ node {
 
   stage('Build docker image') {
   sh "env | sort"
-  echo "My branch is: ${env.BRANCH_NAME}"
+  echo "My branch is: ${env.ghprbSourceBranch}"
   customImage = docker.build("pipeline:${env.BUILD_ID}")
 }
 
