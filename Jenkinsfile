@@ -29,7 +29,7 @@ pipeline {
             branch = "${env.external_job_branch}"
           } catch(MissingPropertyException mpe) {
             echo "No external job branch, launching the integration job manually"
-            repository = getRepositories().get(0).getName();
+            repository = scm.getRepositories().get(0).getName();
             echo repository
             //mySCM = resolveScm(source: [$class: 'GitSCMSource', credentialsId: '8d892add-6d84-42f4-9ba8-21f3f3cd84f1', id: '_', remote: 'https://github.com/sd2e/jenkins-integration', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: ['foo', 'master'])
             //def branchName = mySCM.getBranches().get(0).getName()
