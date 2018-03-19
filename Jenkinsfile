@@ -32,11 +32,11 @@ pipeline {
             echo "No external job branch, checking repository for jenkins-integration"
             repo = "${ghprbGhRepository}"
             echo repo
-            if(repo == "SD2E/jenkins-integration") {
+            if(repo != "SD2E/jenkins-integration") {
               echo "We are not the jenkins-integration repo, launching the integration job manually"
               
               // does the branch exist?
-              mySCM = resolveScm(source: [$class: 'GitSCMSource', credentialsId: '8d892add-6d84-42f4-9ba8-21f3f3cd84f1', id: '_', remote: 'https://github.com/sd2e/jenkins-integration', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: ['foo', 'master'])
+              mySCM = resolveScm(source: [$class: 'GitSCMSource', credentialsId: '8d892add-6d84-42f4-9ba8-21f3f3cd84f1', id: '_', remote: 'https://github.com/sd2e/jenkins-integration', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: [branch, 'master'])
               def branchName = mySCM.getBranches().get(0).getName()
               if(branchName == "master") {
                 //could not find a matching branch, manually launch the job
@@ -45,6 +45,7 @@ pipeline {
                 [$class: 'StringParameterValue', name: 'external_job_branch', value: branch]]
               } else {
                 echo "Matching branch found on jenkins-integration repo, moving on"
+                external_job = "true"
               }
             } else {
               echo "We are the jenkins-integration repo, moving on"
@@ -53,13 +54,16 @@ pipeline {
         }
       }
     }
-    script {
-      if (externalJob == "true") {
-        echo "External job called, we're done"
-      }
-    }
     stage('Build docker image') {
       steps {
+
+        script {
+          if (externalJob == "true") {
+            echo "External job called, we're done"
+            return
+          }
+        }
+
         sh "env | sort"
         echo "My branch is: ${env.ghprbSourceBranch}"
     
@@ -68,7 +72,7 @@ pipeline {
     
         // change yg when merged
         dir(xplan_dir) {
-          checkout resolveScm(source: [$class: 'GitSCMSource', credentialsId: '8d892add-6d84-42f4-9ba8-21f3f3cd84f1', id: '_', remote: 'https://github.com/sd2e/xplan_api', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: [branch, 'yg-fix', 'develop'])
+          checkout resolveScm(source: [$class: 'GitSCMSource', credentialsId: '8d892add-6d84-42f4-9ba8-21f3f3cd84f1', id: '_', remote: 'https://github.com/sd2e/xplan_api', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: [branch, 'develop'])
         }
 
         dir(sbh_dir) {
