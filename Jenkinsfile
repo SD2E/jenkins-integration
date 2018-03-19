@@ -1,11 +1,14 @@
 #!groovy
 
-def customImage
-def branch
-def xplan_dir
-def sbh_dir
-
 pipeline {
+
+  environment {
+    // grab the branch name referenced here on the relevant
+    // repos, falling back to develop if it's not found   
+    branch = "${env.ghprbSourceBranch}"
+    xplan_dir = "xplan_api"
+    sbh_dir = "synbiohub_adapter"
+  }
 
   agent any
 
@@ -21,14 +24,7 @@ pipeline {
         sh "env | sort"
         echo "My branch is: ${env.ghprbSourceBranch}"
     
-        // grab the branch name referenced here on the relevant
-        // repos, falling back to develop if it's not found
-        branch = "${env.ghprbSourceBranch}"
-
-        xplan_dir = "xplan_api"
         sh 'mkdir -p ' + xplan_dir
-
-        sbh_dir = "synbiohub_adapter"
         sh 'mkdir -p ' + sbh_dir
     
         // change yg when merged
@@ -39,17 +35,20 @@ pipeline {
         dir(sbh_dir) {
           checkout resolveScm(source: [$class: 'GitSCMSource', credentialsId: '8d892add-6d84-42f4-9ba8-21f3f3cd84f1', id: '_', remote: 'https://github.com/sd2e/synbiohub_adapter', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: [branch, 'master'])
         }
-
-        customImage = docker.build("pipeline:${env.BUILD_ID}", "--no-cache .")
+        
+        script {
+          docker.build("pipeline:${env.BUILD_ID}", "--no-cache .")
+        }
       }
     }
 
     stage('Test docker image') {
       steps {
-        customImage.inside {
-          //testCreds()
-          testPython()
-        }
+        echo "nothing here yet"
+        //customImage.inside {
+        //testCreds()
+        //testPython()
+        //}
       }
     }
   }
