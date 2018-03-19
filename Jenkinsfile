@@ -46,6 +46,7 @@ pipeline {
         customImage.inside {
           //testCreds()
           testPython()
+        }
       }
     }
   }
