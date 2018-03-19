@@ -8,6 +8,7 @@ pipeline {
     branch = "${env.ghprbSourceBranch}"
     xplan_dir = "xplan_api"
     sbh_dir = "synbiohub_adapter"
+    external_job = "false"
   }
 
   agent any
@@ -39,6 +40,7 @@ pipeline {
               def branchName = mySCM.getBranches().get(0).getName()
               if(branchName == "master") {
                 //could not find a matching branch, manually launch the job
+                external_job = "true"
                 build job: "jenkins-integration", wait: false, parameters: [
                 [$class: 'StringParameterValue', name: 'external_job_branch', value: branch]]
               } else {
@@ -49,6 +51,11 @@ pipeline {
             }
           }
         }
+      }
+    }
+    script {
+      if (externalJob == "true") {
+        echo "External job called, we're done"
       }
     }
     stage('Build docker image') {
