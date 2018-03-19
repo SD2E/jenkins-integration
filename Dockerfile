@@ -19,7 +19,10 @@ RUN mkdir -p /.agave && \
 COPY xplan_api /xplan_api
 COPY synbiohub_adapter /synbiohub_adapter
 
+# for testing, xplan_api
 RUN pip install pytest
+RUN pip install sexpdata
+RUN pip install jsondiff
 
 # Install xplan-api, sbha, xplan
 RUN pip install /xplan_api/
