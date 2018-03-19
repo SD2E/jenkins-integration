@@ -35,6 +35,8 @@ RUN sed -i '/(cd xplan; git checkout yeast_gates)/ s/^/#/' /xplan_api/get_xplan.
 
 RUN /xplan_api/get_xplan.sh /xplan
 
+RUN pip list
+
 RUN cd /xplan_api && pytest
 
 # change YG when merged
