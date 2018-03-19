@@ -35,6 +35,9 @@ node {
       resolveScm source: [$class: 'GitSCMSource', credentialsId: '8d892add-6d84-42f4-9ba8-21f3f3cd84f1', id: '_', remote: 'https://github.com/sd2e/synbiohub_adapter', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: [branch, 'master']
     }
 
+    sh "ls -1 xplan_api"
+    sh "ls -1 synbiohub_adapter"
+
     customImage = docker.build("pipeline:${env.BUILD_ID}")
   }
 
