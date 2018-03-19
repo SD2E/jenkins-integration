@@ -27,6 +27,10 @@ RUN pip install /xplan_api/
 
 #xplan setup
 RUN mkdir -p /xplan
+
+#comment out this line, remove when fixed
+RUN sed -i '/(cd xplan; git checkout yeast_gates)/ s/^/#/' /xplan_api/get_xplan.sh
+
 RUN /xplan_api/get_xplan.sh /xplan
 
 RUN cd /xplan_api && pytest
