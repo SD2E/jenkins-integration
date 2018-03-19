@@ -58,7 +58,7 @@ pipeline {
       steps {
 
         script {
-          if (externalJob == "true") {
+          if (external_job == "true") {
             echo "External job called, we're done"
             return
           }
