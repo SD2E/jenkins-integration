@@ -30,6 +30,7 @@ pipeline {
           } catch(MissingPropertyException mpe) {
             echo "No external job branch, checking repository for jenkins-integration"
             repo = "${ghprbGhRepository}"
+            echo repo
             if(!repo.equals("SD2E/jenkins-integration")) {
               echo "We are not the jenkins-integration repo, launching the integration job manually"
               
