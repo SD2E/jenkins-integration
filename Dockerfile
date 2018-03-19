@@ -19,6 +19,8 @@ RUN mkdir -p /.agave && \
 COPY xplan_api /xplan_api
 COPY synbiohub_adapter /synbiohub_adapter
 
+RUN pip install pytest
+
 # Install xplan-api, sbha, xplan
 RUN pip install /xplan_api/
 
