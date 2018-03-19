@@ -20,7 +20,7 @@ RUN pip install /xplan_api/xplan_api/
 
 RUN pip install /synbiohub_adapter/synbiohub_adapter/
 
-RUN /xplan_api/get_xplan.sh
+RUN /xplan_api/xplan_api/get_xplan.sh
 
 COPY init-sd2e.sh /init-sd2e.sh
 COPY xplan-rule30-end-to-end-demo.py /xplan-rule30-end-to-end-demo.py
