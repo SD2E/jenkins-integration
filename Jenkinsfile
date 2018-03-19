@@ -31,7 +31,7 @@ pipeline {
             echo "No external job branch, checking repository for jenkins-integration"
             repo = "${ghprbGhRepository}"
             echo repo
-            if(repo == "SD2E/jenkins-integration")) {
+            if(repo == "SD2E/jenkins-integration") {
               echo "We are not the jenkins-integration repo, launching the integration job manually"
               
               // does the branch exist?
