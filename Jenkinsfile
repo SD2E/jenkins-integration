@@ -27,18 +27,14 @@ node {
     def sbh_dir = "synbiohub_adapter"
     sh 'mkdir -p ' + sbh_dir
   
+    # change yg when merged
     dir(xplan_dir) {
-      checkout resolveScm(source: [$class: 'GitSCMSource', credentialsId: '8d892add-6d84-42f4-9ba8-21f3f3cd84f1', id: '_', remote: 'https://github.com/sd2e/xplan_api', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: [branch, 'develop'])
+      checkout resolveScm(source: [$class: 'GitSCMSource', credentialsId: '8d892add-6d84-42f4-9ba8-21f3f3cd84f1', id: '_', remote: 'https://github.com/sd2e/xplan_api', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: [branch, 'yg-fix', 'develop'])
     }
 
     dir(sbh_dir) {
       checkout resolveScm(source: [$class: 'GitSCMSource', credentialsId: '8d892add-6d84-42f4-9ba8-21f3f3cd84f1', id: '_', remote: 'https://github.com/sd2e/synbiohub_adapter', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: [branch, 'master'])
     }
-
-    sh "ls -1 xplan_api"
-    sh "ls -1 synbiohub_adapter"
-    sh "ls -1 ."
-    sh "pwd"
 
     customImage = docker.build("pipeline:${env.BUILD_ID}")
   }
