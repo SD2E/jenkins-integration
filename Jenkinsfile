@@ -22,18 +22,23 @@ pipeline {
     // does this branch exist in the integration-test repo?
     stage('Check integration test') {
       steps {
-        echo "My external job branch is: ${external_job_branch}"
         script {
-          checkExternalBranch = "${external_job_branch}"
-          echo checkExternalBranch
-          echo checkExternalBranch.length==0
-          //mySCM = resolveScm(source: [$class: 'GitSCMSource', credentialsId: '8d892add-6d84-42f4-9ba8-21f3f3cd84f1', id: '_', remote: 'https://github.com/sd2e/jenkins-integration', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: ['foo', 'master'])
-          //def branchName = mySCM.getBranches().get(0).getName()
-          //if(branchName.equals("master")) {
-            // could not find a matching branch, manually launch the job
-            //build job: "jenkins-integration", wait: false, parameters: [
-            //  [$class: 'StringParameterValue', name: 'external_job_branch', value: branch]]
-          //}
+          try {
+            echo "My external job branch is: ${external_job_branch}"
+            // override the branch
+            branch = "${env.external_job_branch}"
+          } catch(MissingPropertyException mpe) {
+            echo "No external job branch, launching the integration job manually"
+            repository = getRepositories().get(0).getName();
+            echo repository
+            //mySCM = resolveScm(source: [$class: 'GitSCMSource', credentialsId: '8d892add-6d84-42f4-9ba8-21f3f3cd84f1', id: '_', remote: 'https://github.com/sd2e/jenkins-integration', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: ['foo', 'master'])
+            //def branchName = mySCM.getBranches().get(0).getName()
+            //if(branchName.equals("master")) {
+              // could not find a matching branch, manually launch the job
+              //build job: "jenkins-integration", wait: false, parameters: [
+              //  [$class: 'StringParameterValue', name: 'external_job_branch', value: branch]]
+            //}
+          }
         }
       }
     }
