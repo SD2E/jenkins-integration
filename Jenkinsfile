@@ -37,6 +37,8 @@ node {
 
     sh "ls -1 xplan_api"
     sh "ls -1 synbiohub_adapter"
+    sh "ls -1 ."
+    sh "pwd"
 
     customImage = docker.build("pipeline:${env.BUILD_ID}")
   }
