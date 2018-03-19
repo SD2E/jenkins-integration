@@ -1,4 +1,4 @@
-FROM sd2e/base:ubuntu16
+FROM sd2e/python2:ubuntu16
 
 # Install SD2E CLI
 RUN curl -L \
@@ -7,6 +7,7 @@ RUN curl -L \
     && tar xzf /tmp/sd2e-cloud-cli.tgz -C /usr/local \
     && rm /tmp/sd2e-cloud-cli.tgz \
     && ln -s /usr/local/sd2e-cloud-cli/bin/* /usr/local/bin/
+
 RUN pip install git+https://github.com/TACC/agavepy.git#egg=agavepy
 
 # Give the user a place to store the sd2e cli creds
