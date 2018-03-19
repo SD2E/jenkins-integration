@@ -31,13 +31,13 @@ pipeline {
             echo "No external job branch, checking repository for jenkins-integration"
             repo = "${ghprbGhRepository}"
             echo repo
-            if(!repo.equals("SD2E/jenkins-integration")) {
+            if(repo == "SD2E/jenkins-integration")) {
               echo "We are not the jenkins-integration repo, launching the integration job manually"
               
               // does the branch exist?
               mySCM = resolveScm(source: [$class: 'GitSCMSource', credentialsId: '8d892add-6d84-42f4-9ba8-21f3f3cd84f1', id: '_', remote: 'https://github.com/sd2e/jenkins-integration', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: ['foo', 'master'])
               def branchName = mySCM.getBranches().get(0).getName()
-              if(branchName.equals("master")) {
+              if(branchName == "master") {
                 //could not find a matching branch, manually launch the job
                 build job: "jenkins-integration", wait: false, parameters: [
                 [$class: 'StringParameterValue', name: 'external_job_branch', value: branch]]
