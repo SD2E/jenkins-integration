@@ -44,7 +44,7 @@ RUN cd /xplan_api && python -m pytest
 
 # change YG when merged
 RUN cd /xplan/xplan && git checkout yeast_gates
-RUN export XPLAN_PATH=/xplan/xplan
+ENV XPLAN_PATH=/xplan/xplan
 
 #COPY init-sd2e.sh /init-sd2e.sh
 #COPY xplan-rule30-end-to-end-demo.py /xplan-rule30-end-to-end-demo.py
