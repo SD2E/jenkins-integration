@@ -36,7 +36,7 @@ node {
       checkout resolveScm(source: [$class: 'GitSCMSource', credentialsId: '8d892add-6d84-42f4-9ba8-21f3f3cd84f1', id: '_', remote: 'https://github.com/sd2e/synbiohub_adapter', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: [branch, 'master'])
     }
 
-    customImage = docker.build("pipeline:${env.BUILD_ID}")
+    customImage = docker.build("pipeline:${env.BUILD_ID}", "--no-cache .")
   }
 
   // what is the uid/gid of the build user?
