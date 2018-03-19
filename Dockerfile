@@ -1,5 +1,8 @@
 FROM sd2e/python2:ubuntu16
 
+# steel bank common lisp
+RUN apt-get install sbcl
+
 # Install SD2E CLI
 RUN curl -L \
     https://raw.githubusercontent.com/sd2e/sd2e-cli/master/sd2e-cloud-cli.tgz \
