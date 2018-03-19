@@ -8,8 +8,6 @@ RUN curl -L \
     && rm /tmp/sd2e-cloud-cli.tgz \
     && ln -s /usr/local/sd2e-cloud-cli/bin/* /usr/local/bin/
 
-RUN pip install git+https://github.com/TACC/agavepy.git#egg=agavepy
-
 # Give the user a place to store the sd2e cli creds
 RUN mkdir -p /.agave && \
     chmod 0777 /.agave
@@ -18,9 +16,9 @@ COPY xplan_api /xplan_api
 COPY synbiohub_adapter /synbiohub_adapter
 
 # Install xplan-api, sbha, xplan
-RUN pip install /xplan_api/
+RUN pip install /xplan_api/xplan_api/
 
-RUN pip install /synbiohub_adapter/
+RUN pip install /synbiohub_adapter/synbiohub_adapter/
 
 RUN /xplan_api/get_xplan.sh
 
