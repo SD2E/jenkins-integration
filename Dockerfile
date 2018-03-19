@@ -37,7 +37,7 @@ RUN /xplan_api/get_xplan.sh /xplan
 
 RUN pip list
 
-RUN cd /xplan_api && pytest
+RUN cd /xplan_api && python -m pytest
 
 # change YG when merged
 RUN cd /xplan/xplan && git checkout yeast_gates
