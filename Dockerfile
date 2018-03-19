@@ -15,6 +15,9 @@ RUN mkdir -p /.agave && \
 COPY xplan_api /xplan_api
 COPY synbiohub_adapter /synbiohub_adapter
 
+RUN ls /xplan_api
+RUN ls /synbiohub_adapter
+
 # Install xplan-api, sbha, xplan
 RUN pip install /xplan_api/xplan_api/
 
