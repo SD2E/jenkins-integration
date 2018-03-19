@@ -1,7 +1,7 @@
 FROM sd2e/python2:ubuntu16
 
 # steel bank common lisp
-RUN apt-get install sbcl
+RUN apt-get -y install sbcl
 
 # Install SD2E CLI
 RUN curl -L \
