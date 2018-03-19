@@ -45,7 +45,7 @@ node {
             // stage('Test inside') {
             //     sh 'ls -l /usr/local/bin'
             // }
-    testCreds()
+    //testCreds()
     testPython()
   }
 }
