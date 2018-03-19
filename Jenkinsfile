@@ -1,5 +1,10 @@
 #!groovy
 
+def customImage
+def branch
+def xplan_dir
+def sbh_dir
+
 pipeline {
 
   agent any
@@ -11,8 +16,6 @@ pipeline {
       }
     }
 
-    def customImage
-
     stage('Build docker image') {
       steps {
         sh "env | sort"
@@ -20,12 +23,12 @@ pipeline {
     
         // grab the branch name referenced here on the relevant
         // repos, falling back to develop if it's not found
-        def branch = "${env.ghprbSourceBranch}"
+        branch = "${env.ghprbSourceBranch}"
 
-        def xplan_dir = "xplan_api"
+        xplan_dir = "xplan_api"
         sh 'mkdir -p ' + xplan_dir
 
-        def sbh_dir = "synbiohub_adapter"
+        sbh_dir = "synbiohub_adapter"
         sh 'mkdir -p ' + sbh_dir
     
         // change yg when merged
