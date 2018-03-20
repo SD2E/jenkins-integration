@@ -33,17 +33,12 @@ RUN pip install /xplan_api/
 #xplan setup
 RUN mkdir -p /xplan
 
-#comment out this line, remove when fixed
-#RUN sed -i '/(cd xplan; git checkout yeast_gates)/ s/^/#/' /xplan_api/get_xplan.sh
-
 RUN /xplan_api/get_xplan.sh /xplan
 
 RUN pip list
 
 RUN cd /xplan_api && python -m pytest
 
-# change YG when merged
-RUN cd /xplan/xplan && git checkout yeast_gates
 ENV XPLAN_PATH=/xplan/xplan
 
 #COPY init-sd2e.sh /init-sd2e.sh
