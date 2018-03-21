@@ -88,7 +88,7 @@ pipeline {
         }
 
         dir(ta3_dir) {
-          checkout resolveScm(source: [$class: 'GitSCMSource', credentialsId: 'c959426e-e0cc-4d0f-aca2-3bd586e56b56', id: '_', remote: 'https://gitlab.sd2e.org/sd2program/ta3-api', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: [branch, 'xplan-yg-plan', 'master'])
+          checkout resolveScm(source: [$class: 'GitSCMSource', credentialsId: 'c959426e-e0cc-4d0f-aca2-3bd586e56b56', id: '_', remote: 'git@gitlab.sd2e.org:sd2program/ta3-api.git', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: [branch, 'xplan-yg-plan', 'master'])
         }
         
         script {
