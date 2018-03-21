@@ -49,6 +49,7 @@ RUN /xplan_api/get_xplan.sh /xplan
 # check libraries
 RUN pip list
 
+# test xplan
 RUN cd /xplan_api && python -m pytest
 
 ENV XPLAN_PATH=/xplan/xplan
