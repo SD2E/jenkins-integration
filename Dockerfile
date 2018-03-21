@@ -53,6 +53,9 @@ RUN mkdir -p /xplan
 
 RUN /xplan_api/get_xplan.sh /xplan
 
+#python 3 fork
+RUN pip3 install --upgrade git+https://github.com/willblatt/pyDOE
+
 # check libraries
 RUN pip3 list
 
@@ -63,9 +66,6 @@ ENV XPLAN_PATH=/xplan/xplan
 
 #COPY init-sd2e.sh /init-sd2e.sh
 #COPY xplan-rule30-end-to-end-demo.py /xplan-rule30-end-to-end-demo.py
-
-#python 3 fork
-RUN pip3 install --upgrade git+https://github.com/willblatt/pyDOE
 
 RUN cd /xplan_api
 
