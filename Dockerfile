@@ -18,6 +18,8 @@ RUN mkdir -p /.agave && \
 
 COPY xplan_api /xplan_api
 COPY synbiohub_adapter /synbiohub_adapter
+COPY ta3-api /ta3-api
+COPY xplan_to_sbol /xplan_to_sbol
 
 # for testing, xplan_api
 RUN pip install pytest
@@ -29,6 +31,10 @@ RUN pip install /xplan_api/
 
 # This is not supported yet
 #RUN pip install /synbiohub_adapter
+
+RUN pip install /xplan_to_sbol
+
+RUN pip install -r /ta3-api/requirements.txt
 
 #xplan setup
 RUN mkdir -p /xplan
@@ -48,3 +54,10 @@ RUN cd /xplan_api
 RUN python /xplan_api/example/yeast_gates_doe_biofab.py
 
 RUN ls -1 .
+
+# validate plans
+RUN mkdir -p biofab
+
+RUN mv biofab*.json biofab/
+
+RUN python /ta3-api/src/schema/validateInput.py /ta3-api/src/schema/plan-schema.json biofab/

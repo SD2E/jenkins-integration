@@ -8,6 +8,8 @@ pipeline {
     branch = "${env.ghprbSourceBranch}"
     xplan_dir = "xplan_api"
     sbh_dir = "synbiohub_adapter"
+    xplan_sbol_dir = "xplan_to_sbol"
+    ta3_dir = "ta3-api"
     external_job = "false"
   }
 
@@ -69,6 +71,8 @@ pipeline {
     
         sh 'mkdir -p ' + xplan_dir
         sh 'mkdir -p ' + sbh_dir
+        sh 'mkdir -p ' + ta3_dir
+        sh 'mkdir -p ' + xplan_sbol_dir
     
         // change yg when merged
         dir(xplan_dir) {
@@ -78,7 +82,15 @@ pipeline {
         dir(sbh_dir) {
           checkout resolveScm(source: [$class: 'GitSCMSource', credentialsId: '8d892add-6d84-42f4-9ba8-21f3f3cd84f1', id: '_', remote: 'https://github.com/sd2e/synbiohub_adapter', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: [branch, 'master'])
         }
+
+        dir(ta3_dir) {
+          checkout resolveScm(source: [$class: 'GitSCMSource', credentialsId: 'c959426e-e0cc-4d0f-aca2-3bd586e56b56', id: '_', remote: 'https://gitlab.sd2e.org/sd2program/ta3-api.git', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: [branch, 'xplan-yg-plan', 'master'])
+        }
         
+        dir(xplan_sbol_dir) {
+          checkout resolveScm(source: [$class: 'GitSCMSource', credentialsId: '8d892add-6d84-42f4-9ba8-21f3f3cd84f1', id: '_', remote: 'https://github.com/SD2E/xplan_to_sbol', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: [branch, 'master'])
+        }
+
         script {
           docker.build("pipeline:${env.BUILD_ID}", "--no-cache .")
         }
