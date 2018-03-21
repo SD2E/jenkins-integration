@@ -2,6 +2,7 @@ FROM sd2e/python3:ubuntu17
 
 RUN apt-get update
 
+
 # for xplan_to_sbol
 RUN apt-get -y install libxslt1-dev
 
@@ -67,6 +68,12 @@ ENV XPLAN_PATH=/xplan/xplan
 RUN pip install --upgrade git+https://github.com/willblatt/pyDOE
 
 RUN cd /xplan_api
+
+# xplan_api calls execs python, but our container doesn't have this
+# alias vs. changing the code
+# in the future, fix this in the base container?
+RUN alias python=python3
+
 RUN python3 /xplan_api/example/yeast_gates_doe_biofab.py
 
 RUN ls -lh .
