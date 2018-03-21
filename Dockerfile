@@ -63,6 +63,9 @@ ENV XPLAN_PATH=/xplan/xplan
 #COPY init-sd2e.sh /init-sd2e.sh
 #COPY xplan-rule30-end-to-end-demo.py /xplan-rule30-end-to-end-demo.py
 
+#python 3 fork
+pip install --upgrade git+https://github.com/willblatt/pyDOE
+
 RUN cd /xplan_api
 RUN python3 /xplan_api/example/yeast_gates_doe_biofab.py
 
