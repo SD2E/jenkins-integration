@@ -29,13 +29,15 @@ RUN pip install jsondiff
 # Install xplan-api, sbha, xplan
 RUN pip install /xplan_api/
 
-# This is not supported yet
+# This is not supported yet...
 #RUN pip install /synbiohub_adapter
 
-# custom wheel for python 2.7
-RUN pip install https://github.com/tcmitchell/pySBOL/blob/ubuntu/Ubuntu_16.04_64_2/dist/pySBOL-2.3.0.post11-cp27-none-any.whl?raw=true
+# custom wheel for python 3.6
+#RUN pip install https://github.com/tcmitchell/pySBOL/blob/ubuntu/Ubuntu_16.04_64_3/dist/pySBOL-2.3.0.post11-cp36-none-any.whl?raw=true
 
-RUN pip install /xplan_to_sbol
+# this has a windows dependency baked in
+# and doesn't work right now
+#RUN cd /xplan_to_sbol && python setup.py install || true
 
 RUN pip install -r /ta3-api/requirements.txt
 
