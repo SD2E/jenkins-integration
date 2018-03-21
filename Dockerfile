@@ -64,12 +64,12 @@ ENV XPLAN_PATH=/xplan/xplan
 #COPY xplan-rule30-end-to-end-demo.py /xplan-rule30-end-to-end-demo.py
 
 #python 3 fork
-pip install --upgrade git+https://github.com/willblatt/pyDOE
+RUN pip install --upgrade git+https://github.com/willblatt/pyDOE
 
 RUN cd /xplan_api
 RUN python3 /xplan_api/example/yeast_gates_doe_biofab.py
 
-RUN ls -1 .
+RUN ls -lh .
 
 # validate plans
 RUN mkdir -p biofab
