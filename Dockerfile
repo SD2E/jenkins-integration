@@ -32,6 +32,9 @@ RUN pip install /xplan_api/
 # This is not supported yet
 #RUN pip install /synbiohub_adapter
 
+# custom wheel for python 2.7
+RUN pip install https://github.com/tcmitchell/pySBOL/blob/ubuntu/Ubuntu_16.04_64_2/dist/pySBOL-2.3.0.post11-cp27-none-any.whl?raw=true
+
 RUN pip install /xplan_to_sbol
 
 RUN pip install -r /ta3-api/requirements.txt
