@@ -65,7 +65,7 @@ ENV XPLAN_PATH=/xplan/xplan
 #COPY xplan-rule30-end-to-end-demo.py /xplan-rule30-end-to-end-demo.py
 
 #python 3 fork
-RUN pip install --upgrade git+https://github.com/willblatt/pyDOE
+RUN pip3 install --upgrade git+https://github.com/willblatt/pyDOE
 
 RUN cd /xplan_api
 
