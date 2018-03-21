@@ -83,14 +83,14 @@ pipeline {
           checkout resolveScm(source: [$class: 'GitSCMSource', credentialsId: '8d892add-6d84-42f4-9ba8-21f3f3cd84f1', id: '_', remote: 'https://github.com/sd2e/synbiohub_adapter', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: [branch, 'master'])
         }
 
-        dir(ta3_dir) {
-          checkout resolveScm(source: [$class: 'GitSCMSource', credentialsId: 'c959426e-e0cc-4d0f-aca2-3bd586e56b56', id: '_', remote: 'https://gitlab.sd2e.org/sd2program/ta3-api.git', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: [branch, 'xplan-yg-plan', 'master'])
-        }
-        
         dir(xplan_sbol_dir) {
           checkout resolveScm(source: [$class: 'GitSCMSource', credentialsId: '8d892add-6d84-42f4-9ba8-21f3f3cd84f1', id: '_', remote: 'https://github.com/SD2E/xplan_to_sbol', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: [branch, 'master'])
         }
 
+        dir(ta3_dir) {
+          checkout resolveScm(source: [$class: 'GitSCMSource', credentialsId: 'c959426e-e0cc-4d0f-aca2-3bd586e56b56', id: '_', remote: 'https://gitlab.sd2e.org/sd2program/ta3-api', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: [branch, 'xplan-yg-plan', 'master'])
+        }
+        
         script {
           docker.build("pipeline:${env.BUILD_ID}", "--no-cache .")
         }
