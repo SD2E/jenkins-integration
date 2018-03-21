@@ -46,6 +46,7 @@ RUN mkdir -p /xplan
 
 RUN /xplan_api/get_xplan.sh /xplan
 
+# check libraries
 RUN pip list
 
 RUN cd /xplan_api && python -m pytest
