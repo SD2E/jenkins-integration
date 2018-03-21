@@ -1,4 +1,4 @@
-FROM sd2e/python2:ubuntu16
+FROM sd2e/python3:ubuntu17
 
 # steel bank common lisp
 RUN apt-get -y install sbcl
@@ -22,24 +22,25 @@ COPY ta3-api /ta3-api
 COPY xplan_to_sbol /xplan_to_sbol
 
 # for testing, xplan_api
-RUN pip install pytest
-RUN pip install sexpdata
-RUN pip install jsondiff
+RUN pip3 install pytest
+RUN pip3 install sexpdata
+RUN pip3 install jsondiff
 
 # Install xplan-api, sbha, xplan
-RUN pip install /xplan_api/
+RUN pip3 install /xplan_api/
 
 # This is not supported yet...
-#RUN pip install /synbiohub_adapter
+#RUN pip3 install /synbiohub_adapter
 
-# custom wheel for python 3.6
-#RUN pip install https://github.com/tcmitchell/pySBOL/blob/ubuntu/Ubuntu_16.04_64_3/dist/pySBOL-2.3.0.post11-cp36-none-any.whl?raw=true
+# custom wheel for python3.6
+RUN pip3 install https://github.com/tcmitchell/pySBOL/blob/ubuntu/Ubuntu_16.04_64_3/dist/pySBOL-2.3.0.post11-cp36-none-any.whl?raw=true
 
-# this has a windows dependency baked in
-# and doesn't work right now
-#RUN cd /xplan_to_sbol && python setup.py install || true
+# returns a non-zero exit code looking for a windows dependency
+RUN cd /xplan_to_sbol && python3 setup.py install || true
 
-RUN pip install -r /ta3-api/requirements.txt
+RUN cd /xplan_to_sbol && python3 -m tests.SBOLTestSuite || true
+
+RUN pip3 install -r /ta3-api/requirements.txt
 
 #xplan setup
 RUN mkdir -p /xplan
@@ -47,10 +48,10 @@ RUN mkdir -p /xplan
 RUN /xplan_api/get_xplan.sh /xplan
 
 # check libraries
-RUN pip list
+RUN pip3 list
 
 # test xplan
-RUN cd /xplan_api && python -m pytest
+RUN cd /xplan_api && python3 -m pytest
 
 ENV XPLAN_PATH=/xplan/xplan
 
@@ -58,7 +59,7 @@ ENV XPLAN_PATH=/xplan/xplan
 #COPY xplan-rule30-end-to-end-demo.py /xplan-rule30-end-to-end-demo.py
 
 RUN cd /xplan_api
-RUN python /xplan_api/example/yeast_gates_doe_biofab.py
+RUN python3 /xplan_api/example/yeast_gates_doe_biofab.py
 
 RUN ls -1 .
 
@@ -67,4 +68,4 @@ RUN mkdir -p biofab
 
 RUN mv biofab*.json biofab/
 
-RUN python /ta3-api/src/schema/validateInput.py /ta3-api/src/schema/plan-schema.json biofab/
+RUN python3 /ta3-api/src/schema/validateInput.py /ta3-api/src/schema/plan-schema.json biofab/
