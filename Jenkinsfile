@@ -107,6 +107,11 @@ pipeline {
       }
     }
   }
+  post {
+    always {
+      cleanWs()
+    }
+  }
 }
 
 def testCreds() {
