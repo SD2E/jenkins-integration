@@ -68,11 +68,6 @@ ENV XPLAN_PATH=/xplan/xplan
 
 RUN cd /xplan_api
 
-# xplan_api calls execs python, but our container doesn't have this
-# alias vs. changing the code
-# in the future, fix this in the base container?
-RUN alias python=python3
-
 RUN python3 /xplan_api/example/yeast_gates_doe_biofab.py
 
 RUN ls -lh .
