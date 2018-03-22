@@ -2,7 +2,6 @@ FROM sd2e/python3:ubuntu17
 
 RUN apt-get update
 
-
 # for xplan_to_sbol
 RUN apt-get -y install libxslt1-dev
 
