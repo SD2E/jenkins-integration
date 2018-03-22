@@ -1,47 +1,127 @@
-/*
- Copied from an example: https://gist.github.com/jonico/e205b16cf07451b2f475543cf1541e70
-*/
+#!groovy
 
-node {
-  checkout scm
-  // withEnv(['PATH+=/var/lib/jenkins/sd2e-cloud-cli/bin']) {
-  //   testCreds()
-  // }
-  // withPythonEnv('Python2.7') {
-  //   installDeps()
-  //   testPython()
-  // }
-  def customImage
+pipeline {
 
-  stage('Build docker image') {
-  customImage = docker.build("pipeline:${env.BUILD_ID}")
-}
+  environment {
+    // grab the branch name referenced here on the relevant
+    // repos, falling back to develop if it's not found   
+    branch = "${env.ghprbSourceBranch}"
+    xplan_dir = "xplan_api"
+    sbh_dir = "synbiohub_adapter"
+    xplan_sbol_dir = "xplan_to_sbol"
+    ta3_dir = "ta3-api"
+    external_job = "false"
+  }
 
-// what is the uid/gid of the build user?
-  // sh 'id'
-    customImage.inside {
-            // stage('Test inside') {
-            //     sh 'ls -l /usr/local/bin'
-            // }
-        testCreds()
-        testPython()
+  agent any
+
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
     }
+
+    // does this branch exist in the integration-test repo?
+    stage('Check integration test') {
+      steps {
+        script {
+          try {
+            echo "My external job branch is: ${external_job_branch}"
+            // override the branch
+            branch = "${env.external_job_branch}"
+          } catch(MissingPropertyException mpe) {
+            echo "No external job branch, checking repository for jenkins-integration"
+            repo = "${ghprbGhRepository}"
+            echo repo
+            if(repo != "SD2E/jenkins-integration") {
+              echo "We are not the jenkins-integration repo, launching the integration job manually"
+              
+              // does the branch exist?
+              mySCM = resolveScm(source: [$class: 'GitSCMSource', credentialsId: '8d892add-6d84-42f4-9ba8-21f3f3cd84f1', id: '_', remote: 'https://github.com/sd2e/jenkins-integration', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: [branch, 'master'])
+              def branchName = mySCM.getBranches().get(0).getName()
+              if(branchName == "master") {
+                //could not find a matching branch, manually launch the job
+                external_job = "true"
+                build job: "jenkins-integration", wait: false, parameters: [
+                [$class: 'StringParameterValue', name: 'external_job_branch', value: branch]]
+              } else {
+                echo "Matching branch found on jenkins-integration repo, moving on"
+                external_job = "true"
+              }
+            } else {
+              echo "We are the jenkins-integration repo, moving on"
+            }
+          }
+        }
+      }
+    }
+    stage('Build docker image') {
+      steps {
+
+        script {
+          if (external_job == "true") {
+            echo "External job called, we're done"
+            return
+          }
+        }
+
+        sh "env | sort"
+        echo "My branch is: ${env.ghprbSourceBranch}"
+    
+        sh 'mkdir -p ' + xplan_dir
+        sh 'mkdir -p ' + sbh_dir
+        sh 'mkdir -p ' + ta3_dir
+        sh 'mkdir -p ' + xplan_sbol_dir
+    
+        // change yg when merged
+        dir(xplan_dir) {
+          checkout resolveScm(source: [$class: 'GitSCMSource', credentialsId: '8d892add-6d84-42f4-9ba8-21f3f3cd84f1', id: '_', remote: 'https://github.com/sd2e/xplan_api', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: [branch, 'python3', 'develop'])
+        }
+
+        dir(sbh_dir) {
+          checkout resolveScm(source: [$class: 'GitSCMSource', credentialsId: '8d892add-6d84-42f4-9ba8-21f3f3cd84f1', id: '_', remote: 'https://github.com/sd2e/synbiohub_adapter', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: [branch, 'master'])
+        }
+
+        dir(xplan_sbol_dir) {
+          checkout resolveScm(source: [$class: 'GitSCMSource', credentialsId: '8d892add-6d84-42f4-9ba8-21f3f3cd84f1', id: '_', remote: 'https://github.com/SD2E/xplan_to_sbol', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: [branch, 'master'])
+        }
+
+        dir(ta3_dir) {
+          checkout resolveScm(source: [$class: 'GitSCMSource', credentialsId: 'c959426e-e0cc-4d0f-aca2-3bd586e56b56', id: '_', remote: 'git@gitlab.sd2e.org:sd2program/ta3-api.git', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: [branch, 'xplan-yg-plan-python3', 'master'])
+        }
+        
+        script {
+          docker.build("pipeline:${env.BUILD_ID}", "--no-cache .")
+        }
+      }
+    }
+
+    stage('Test docker image') {
+      steps {
+        echo "nothing here yet"
+        //customImage.inside {
+        //testCreds()
+        //testPython()
+        //}
+      }
+    }
+  }
+  post {
+    always {
+      cleanWs()
+    }
+  }
 }
 
 def testCreds() {
-    stage('Initialize Agave') {
-    	echo "In stage"
-    	echo "PATH = $PATH"
-	withCredentials([usernamePassword(credentialsId: '4d8e06da-d728-4dcc-aa32-9e10bb8afb73',
-					  passwordVariable: 'AGAVE_PASSWORD',
-					  usernameVariable: 'AGAVE_USER')]) {
-	    sh '/init-sd2e.sh'
-        }
-    }
+  withCredentials([usernamePassword(credentialsId: '4d8e06da-d728-4dcc-aa32-9e10bb8afb73',
+    passwordVariable: 'AGAVE_PASSWORD',
+    usernameVariable: 'AGAVE_USER')]) {
+      sh '/init-sd2e.sh'
+  }
 }
 
 def testPython() {
-    stage('xplan rule30') {
-        sh 'python /xplan-rule30-end-to-end-demo.py'
-    }
+  //sh 'python /xplan-rule30-end-to-end-demo.py'
 }
