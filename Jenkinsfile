@@ -11,6 +11,13 @@ pipeline {
     xplan_sbol_dir = "xplan_to_sbol"
     ta3_dir = "ta3-api"
     external_job = "false"
+    AGAVE_CACHE_DIR   = "${HOME}/credentials_cache/${JOB_BASE_NAME}"
+    AGAVE_JSON_PARSER = "jq"
+    AGAVE_TENANTID    = "sd2e"
+    AGAVE_APISERVER   = "https://api.sd2e.org"
+    AGAVE_USERNAME    = "sd2etest"
+    AGAVE_PASSWORD    = credentials('sd2etest-tacc-password')
+    PATH = "${HOME}/bin:${HOME}/sd2e-cloud-cli/bin:${env.PATH}"
   }
 
   agent any
@@ -22,6 +29,11 @@ pipeline {
       }
     }
 
+    stage('Create Oauth client') {
+      steps {
+        sh "make-session-client ${JOB_BASE_NAME} ${JOB_BASE_NAME}-${BUILD_ID}"
+      }
+    }
     // does this branch exist in the integration-test repo?
     stage('Check integration test') {
       steps {
@@ -56,7 +68,7 @@ pipeline {
         }
       }
     }
-    stage('Build docker image') {
+    stage('Resolve SCM') {
       steps {
 
         script {
@@ -90,13 +102,21 @@ pipeline {
         dir(ta3_dir) {
           checkout resolveScm(source: [$class: 'GitSCMSource', credentialsId: 'c959426e-e0cc-4d0f-aca2-3bd586e56b56', id: '_', remote: 'git@gitlab.sd2e.org:sd2program/ta3-api.git', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: [branch, 'develop'])
         }
-        
+      }
+    }
+    stage('Copy test data') {
+      steps {
+        sh "ta3-api/src/util/get_rule_30_data.sh"
+        sh "ta3-api/src/util/get_yeastgates_ginkgo_data.sh"
+      }
+    }
+    stage('Build docker image') {
+      steps {
         script {
           docker.build("pipeline:${env.BUILD_ID}", "--no-cache .")
         }
       }
     }
-
     stage('Test docker image') {
       steps {
         echo "nothing here yet"
@@ -109,6 +129,7 @@ pipeline {
   }
   post {
     always {
+      sh "delete-session-client ${JOB_BASE_NAME} ${JOB_BASE_NAME}-${BUILD_ID}"
       cleanWs()
     }
   }
