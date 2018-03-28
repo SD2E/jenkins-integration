@@ -34,11 +34,14 @@ RUN pip3 install jsondiff
 # Install xplan-api, sbha, xplan
 RUN pip3 install /xplan_api/
 
-# This is not supported yet...
-#RUN pip3 install /synbiohub_adapter
-
 # custom wheel for python3.6
 RUN pip3 install https://github.com/tcmitchell/pySBOL/blob/ubuntu/Ubuntu_16.04_64_3/dist/pySBOL-2.3.0.post11-cp36-none-any.whl?raw=true
+
+#SBH
+# returns a non-zero exit code looking for pySBOLx
+RUN pip3 install /synbiohub_adapter || true
+
+RUN cd /synbiohub_adapter && python3 -m unittest tests/Test_SPARQLQueries.py
 
 # returns a non-zero exit code looking for a windows dependency
 RUN cd /xplan_to_sbol && python3 setup.py install || true
