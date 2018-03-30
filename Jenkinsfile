@@ -104,6 +104,7 @@ pipeline {
         }
       }
     }
+  
     stage('Copy test data') {
       steps {
         sh "ta3-api/src/util/get_rule_30_data.sh"
@@ -117,13 +118,11 @@ pipeline {
         }
       }
     }
-    stage('Test docker image') {
+    stage('Run docker image') {
       steps {
-        echo "nothing here yet"
-        //customImage.inside {
-        //testCreds()
-        //testPython()
-        //}
+        script {
+          sh "docker run -v \$(pwd)/xplan_api:/xplan_api -v \$(pwd)/ta3-api:/ta3-api -v \$(pwd)/xplan_to_sbol:/xplan_to_sbol -v \$(pwd)/synbiohub_adapter:/synbiohub_adapter pipeline:${env.BUILD_ID}"
+        }
       }
     }
   }
