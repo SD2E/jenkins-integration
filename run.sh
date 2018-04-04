@@ -1,7 +1,8 @@
 set -x
 set -e
+
 # Install xplan-api, sbha, xplan
-pip3 install /xplan_api/
+pip3 install -e /xplan_api[dev]
 
 #SBH
 # returns a non-zero exit code looking for pySBOLx
@@ -24,6 +25,17 @@ mkdir -p /xplan
 
 /xplan_api/get_xplan.sh /xplan
 
+cd /xplan/xplan
+
+# branch may not exist, use development on xplan otherwise
+EXISTS="$(git ls-remote --heads origin $BRANCH | wc -l)"
+
+if [ $EXISTS -eq 1 ]; then
+  git checkout "$BRANCH"
+else
+  git checkout development
+fi
+
 # check libraries
 pip3 list
 
@@ -34,7 +46,7 @@ export XPLAN_PATH=/xplan/xplan
 
 cd /xplan_api
 
-python3 /xplan_api/example/yeast_gates_doe_biofab.py
+python3 /xplan_api/example/yeast_gates_doe_biofab.py -e 1 -g xor
 
 ls -lh .
 

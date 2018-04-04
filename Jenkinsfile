@@ -88,7 +88,7 @@ pipeline {
     
         // change yg when merged
         dir(xplan_dir) {
-          checkout resolveScm(source: [$class: 'GitSCMSource', credentialsId: '8d892add-6d84-42f4-9ba8-21f3f3cd84f1', id: '_', remote: 'https://github.com/sd2e/xplan_api', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: [branch, 'develop'])
+          checkout resolveScm(source: [$class: 'GitSCMSource', credentialsId: 'c959426e-e0cc-4d0f-aca2-3bd586e56b56', id: '_', remote: 'git@gitlab.sd2e.org:sd2program/xplan_api.git', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: [branch, 'develop'])
         }
 
         dir(sbh_dir) {
@@ -114,20 +114,21 @@ pipeline {
     stage('Build docker image') {
       steps {
         script {
-          docker.build("pipeline:${env.BUILD_ID}", "--no-cache .")
+          docker.build("pipeline:${env.BUILD_ID}")
         }
       }
     }
     stage('Run docker image') {
       steps {
         script {
-          sh "docker run -v \$(pwd)/xplan_api:/xplan_api -v \$(pwd)/ta3-api:/ta3-api -v \$(pwd)/xplan_to_sbol:/xplan_to_sbol -v \$(pwd)/synbiohub_adapter:/synbiohub_adapter pipeline:${env.BUILD_ID}"
+          sh "docker run -e \"BRANCH=${env.ghprbSourceBranch}\" -v \$(pwd)/xplan_api:/xplan_api -v \$(pwd)/ta3-api:/ta3-api -v \$(pwd)/xplan_to_sbol:/xplan_to_sbol -v \$(pwd)/synbiohub_adapter:/synbiohub_adapter pipeline:${env.BUILD_ID}"
         }
       }
     }
   }
   post {
     always {
+      archiveArtifacts artifacts: 'xplan_api/biofab/*.json', fingerprint: true, onlyIfSuccessful: true
       sh "delete-session-client ${JOB_BASE_NAME} ${JOB_BASE_NAME}-${BUILD_ID}"
       cleanWs()
     }

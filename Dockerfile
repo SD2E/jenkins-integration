@@ -9,6 +9,9 @@ RUN apt-get -y install libxslt1-dev
 RUN apt-get -y install sbcl
 RUN apt-get -y install subversion
 
+# GraphViz for xplan
+RUN apt-get -y install graphviz
+
 # Install SD2E CLI
 RUN curl -L \
     https://raw.githubusercontent.com/sd2e/sd2e-cli/master/sd2e-cloud-cli.tgz \
@@ -20,11 +23,6 @@ RUN curl -L \
 # Give the user a place to store the sd2e cli creds
 RUN mkdir -p /.agave && \
     chmod 0777 /.agave
-
-# for testing, xplan_api
-RUN pip3 install pytest
-RUN pip3 install sexpdata
-RUN pip3 install jsondiff
 
 #python 3 fork
 RUN pip3 install --upgrade git+https://github.com/willblatt/pyDOE
