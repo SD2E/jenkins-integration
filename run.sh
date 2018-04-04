@@ -56,3 +56,6 @@ mkdir -p biofab
 mv biofab*.json biofab/
 
 python3 /ta3-api/src/schema/validateInput.py /ta3-api/src/schema/plan-schema.json biofab/
+
+# submit to SBH
+xplan_to_sbol -i biofab/biofab*.json -p jWJ1yztJl2f7RaePHMtXmxBBHwNt
