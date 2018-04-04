@@ -1,7 +1,8 @@
 set -x
 set -e
+
 # Install xplan-api, sbha, xplan
-pip3 install /xplan_api/
+pip3 install -e /xplan_api[dev]
 
 #SBH
 # returns a non-zero exit code looking for pySBOLx

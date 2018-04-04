@@ -21,11 +21,6 @@ RUN curl -L \
 RUN mkdir -p /.agave && \
     chmod 0777 /.agave
 
-# for testing, xplan_api
-RUN pip3 install pytest
-RUN pip3 install sexpdata
-RUN pip3 install jsondiff
-
 #python 3 fork
 RUN pip3 install --upgrade git+https://github.com/willblatt/pyDOE
 

@@ -114,7 +114,7 @@ pipeline {
     stage('Build docker image') {
       steps {
         script {
-          docker.build("pipeline:${env.BUILD_ID}", "--no-cache .")
+          docker.build("pipeline:${env.BUILD_ID}")
         }
       }
     }
@@ -128,6 +128,7 @@ pipeline {
   }
   post {
     always {
+      archiveArtifacts artifacts: '$(pwd)/xplan_api/*.json', fingerprint: true, onlyIfSuccessful: true
       sh "delete-session-client ${JOB_BASE_NAME} ${JOB_BASE_NAME}-${BUILD_ID}"
       cleanWs()
     }
