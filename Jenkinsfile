@@ -88,7 +88,7 @@ pipeline {
     
         // change yg when merged
         dir(xplan_dir) {
-          checkout resolveScm(source: [$class: 'GitSCMSource', credentialsId: '8d892add-6d84-42f4-9ba8-21f3f3cd84f1', id: '_', remote: 'https://github.com/sd2e/xplan_api', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: [branch, 'develop'])
+          checkout resolveScm(source: [$class: 'GitSCMSource', credentialsId: 'c959426e-e0cc-4d0f-aca2-3bd586e56b56', id: '_', remote: 'git@gitlab.sd2e.org:sd2program/xplan_api.git', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: [branch, 'develop'])
         }
 
         dir(sbh_dir) {
