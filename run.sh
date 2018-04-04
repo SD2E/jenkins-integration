@@ -25,6 +25,17 @@ mkdir -p /xplan
 
 /xplan_api/get_xplan.sh /xplan
 
+cd /xplan/xplan
+
+# branch may not exist, use development on xplan otherwise
+EXISTS="$(git ls-remote --heads origin $BRANCH | wc -l)"
+
+if [ $EXISTS -eq 1 ]; then
+  git checkout "$BRANCH"
+else
+  git checkout development
+fi
+
 # check libraries
 pip3 list
 
