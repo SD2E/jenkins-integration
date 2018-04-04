@@ -46,7 +46,7 @@ export XPLAN_PATH=/xplan/xplan
 
 cd /xplan_api
 
-python3 /xplan_api/example/yeast_gates_doe_biofab.py
+python3 /xplan_api/example/yeast_gates_doe_biofab.py -e 1 -g xor
 
 ls -lh .
 
