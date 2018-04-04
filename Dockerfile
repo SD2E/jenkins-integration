@@ -9,6 +9,9 @@ RUN apt-get -y install libxslt1-dev
 RUN apt-get -y install sbcl
 RUN apt-get -y install subversion
 
+# GraphViz for xplan
+RUN apt-get -y install graphviz
+
 # Install SD2E CLI
 RUN curl -L \
     https://raw.githubusercontent.com/sd2e/sd2e-cli/master/sd2e-cloud-cli.tgz \
