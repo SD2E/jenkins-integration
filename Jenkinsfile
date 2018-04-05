@@ -121,7 +121,7 @@ pipeline {
     stage('Run docker image') {
       steps {
         script {
-          sh "docker run -e \"BRANCH=${env.ghprbSourceBranch}\" -v \$(pwd)/xplan_api:/xplan_api -v \$(pwd)/ta3-api:/ta3-api -v \$(pwd)/xplan_to_sbol:/xplan_to_sbol -v \$(pwd)/synbiohub_adapter:/synbiohub_adapter pipeline:${env.BUILD_ID}"
+          sh "docker_run.sh"
         }
       }
     }
