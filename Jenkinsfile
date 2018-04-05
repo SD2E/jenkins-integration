@@ -121,8 +121,7 @@ pipeline {
     stage('Run docker image') {
       steps {
         script {
-          sh "ls -la"
-          sh "docker_run.sh"
+          sh "./docker_run.sh"
         }
       }
     }
