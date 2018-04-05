@@ -128,7 +128,7 @@ pipeline {
   }
   post {
     always {
-      archiveArtifacts artifacts: 'xplan_api/biofab/*.json', fingerprint: true, onlyIfSuccessful: true
+      archiveArtifacts artifacts: 'xplan_api/biofab/*.json', fingerprint: true
       sh "delete-session-client ${JOB_BASE_NAME} ${JOB_BASE_NAME}-${BUILD_ID}"
       cleanWs()
     }
