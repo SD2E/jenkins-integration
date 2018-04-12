@@ -46,7 +46,7 @@ export XPLAN_PATH=/xplan/xplan
 
 cd /xplan_api
 
-python3 /xplan_api/example/yeast_gates_doe_biofab.py -e 1 -g xor
+python3 /xplan_api/example/yeast_gates_doe_biofab.py -e 10545 -g nor -m 4
 
 ls -lh .
 
@@ -56,3 +56,8 @@ mkdir -p biofab
 mv biofab*.json biofab/
 
 python3 /ta3-api/src/schema/validateInput.py /ta3-api/src/schema/plan-schema.json biofab/
+
+cd /xplan_to_sbol
+
+# submit to SBH
+xplan_to_sbol -i /xplan_api/biofab/biofab*.json -p jWJ1yztJl2f7RaePHMtXmxBBHwNt
