@@ -13,7 +13,7 @@ if [ ! -z "${JENKINS_URL}" ]; then
   CI_GID=$(id -g jenkins)
 fi
 
-MOUNTS="-v $(pwd)/xplan_api:/xplan_api -v $(pwd)/ta3-api:/ta3-api -v $(pwd)/xplan_to_sbol:/xplan_to_sbol -v $(pwd)/synbiohub_adapter:/synbiohub_adapter"
+MOUNTS="-v $(pwd)/xplan:/xplan -v $(pwd)/ta3-api:/ta3-api -v $(pwd)/xplan_to_sbol:/xplan_to_sbol -v $(pwd)/synbiohub_adapter:/synbiohub_adapter"
 
 if ((UNDER_CI)); then
   # If running a Dockerized process with a volume mount

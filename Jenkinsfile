@@ -6,7 +6,7 @@ pipeline {
     // grab the branch name referenced here on the relevant
     // repos, falling back to develop if it's not found   
     branch = "${env.ghprbSourceBranch}"
-    xplan_dir = "xplan_api"
+    xplan_dir = "xplan"
     sbh_dir = "synbiohub_adapter"
     xplan_sbol_dir = "xplan_to_sbol"
     ta3_dir = "ta3-api"
@@ -88,7 +88,7 @@ pipeline {
     
         // change yg when merged
         dir(xplan_dir) {
-          checkout resolveScm(source: [$class: 'GitSCMSource', credentialsId: 'c959426e-e0cc-4d0f-aca2-3bd586e56b56', id: '_', remote: 'git@gitlab.sd2e.org:sd2program/xplan_api.git', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: [branch, 'develop'])
+          checkout resolveScm(source: [$class: 'GitSCMSource', credentialsId: 'c959426e-e0cc-4d0f-aca2-3bd586e56b56', id: '_', remote: 'git@gitlab.sd2e.org:sd2program/xplan.git', traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]], targets: [branch, 'develop'])
         }
 
         dir(sbh_dir) {
@@ -128,7 +128,7 @@ pipeline {
   }
   post {
     always {
-      archiveArtifacts artifacts: 'xplan_api/biofab/*.json', fingerprint: true
+      archiveArtifacts artifacts: 'xplan/xplan_api/biofab/*.json', fingerprint: true
       sh "delete-session-client ${JOB_BASE_NAME} ${JOB_BASE_NAME}-${BUILD_ID}"
       cleanWs()
     }
