@@ -40,6 +40,7 @@ cd /ta3-api && python3 -m pytest
 pip3 list
 
 # test xplan
+cd /xplan/code && sh get_externals.sh
 cd /xplan/xplan_api && python3 -m pytest
 
 export XPLAN_PATH=/xplan/code
