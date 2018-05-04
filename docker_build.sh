@@ -1,0 +1,1 @@
+docker build -t sd2e/sd2e_integration:1.0 .
