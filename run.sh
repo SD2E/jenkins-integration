@@ -59,7 +59,9 @@ rm biofab/*sample_attributes.json
 
 python3 /ta3-api/src/schema/validateInput.py /ta3-api/src/schema/plan-schema.json biofab/
 
+biofab_path=$(cd biofab; pwd)
 cd /xplan_to_sbol
 
+plan_json=$(ls $biofab_path/biofab*.json | head -n 1)
 # submit to SBH
-xplan_to_sbol -i /xplan_api/biofab/biofab*.json -p jWJ1yztJl2f7RaePHMtXmxBBHwNt
+xplan_to_sbol -i $plan_json -p jWJ1yztJl2f7RaePHMtXmxBBHwNt
