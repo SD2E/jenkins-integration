@@ -55,6 +55,7 @@ ls -lh .
 mkdir -p biofab
 
 mv biofab*.json biofab/
+rm biofab/*sample_attributes.json
 
 python3 /ta3-api/src/schema/validateInput.py /ta3-api/src/schema/plan-schema.json biofab/
 
