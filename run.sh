@@ -2,7 +2,7 @@ set -x
 set -e
 
 # Install xplan-api, sbha, xplan
-pip3 install -e /xplan_api[dev]
+pip3 install -e /xplan/xplan_api[dev]
 
 #SBH
 # returns a non-zero exit code looking for pySBOLx
@@ -21,32 +21,33 @@ pip3 install -r /ta3-api/requirements.txt
 cd /ta3-api && python3 -m pytest
 
 #xplan setup
-mkdir -p /xplan
+#mkdir -p /xplan
 
-/xplan_api/get_xplan.sh /xplan
+#/xplan/xplan_api/get_xplan.sh /xplan
 
-cd /xplan/xplan
+#cd /xplan
 
 # branch may not exist, use development on xplan otherwise
-EXISTS="$(git ls-remote --heads origin $BRANCH | wc -l)"
+#EXISTS="$(git ls-remote --heads origin $BRANCH | wc -l)"
 
-if [ $EXISTS -eq 1 ]; then
-  git checkout "$BRANCH"
-else
-  git checkout development
-fi
+#if [ $EXISTS -eq 1 ]; then
+#  git checkout "$BRANCH"
+#else
+#  git checkout development
+#fi
 
 # check libraries
 pip3 list
 
 # test xplan
-cd /xplan_api && python3 -m pytest
+cd /xplan/code && sh get_externals.sh
+cd /xplan/xplan_api && python3 -m pytest
 
-export XPLAN_PATH=/xplan/xplan
+export XPLAN_PATH=/xplan/code
 
-cd /xplan_api
+cd /xplan/xplan_api
 
-python3 /xplan_api/example/yeast_gates_doe_biofab.py -e 10545 -g nor -m 4
+python3 example/yeast_gates_doe_biofab.py -e 10545 -g nor -m 4 -c example/configs/no_upload.json
 
 ls -lh .
 
@@ -54,10 +55,13 @@ ls -lh .
 mkdir -p biofab
 
 mv biofab*.json biofab/
+rm biofab/*sample_attributes.json
 
 python3 /ta3-api/src/schema/validateInput.py /ta3-api/src/schema/plan-schema.json biofab/
 
+biofab_path=$(cd biofab; pwd)
 cd /xplan_to_sbol
 
+plan_json=$(ls $biofab_path/biofab*.json | head -n 1)
 # submit to SBH
-xplan_to_sbol -i /xplan_api/biofab/biofab*.json -p jWJ1yztJl2f7RaePHMtXmxBBHwNt
+xplan_to_sbol -i $plan_json -p jWJ1yztJl2f7RaePHMtXmxBBHwNt
